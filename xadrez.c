@@ -1,52 +1,78 @@
 #include <stdio.h>
 
-int main() {
-    // --- TORRE ---
-    int casasTorre = 5;
-    printf("Movimento da Torre:\n");
-    for (int i = 1; i <= casasTorre; i++) {
-        printf("Direita (%d)\n", i);
+// --- TORRE (recursiva) ---
+void moverTorre(int casas, int atual) {
+    if (atual > casas) return; // caso base
+    printf("Direita (%d)\n", atual);
+    moverTorre(casas, atual + 1); // chamada recursiva
+}
+
+// --- BISPO (recursiva + loops aninhados) ---
+void moverBispo(int casas, int atual) {
+    if (atual > casas) return; // caso base
+
+    // loop externo = vertical
+    for (int v = 1; v <= 1; v++) {
+        // loop interno = horizontal
+        for (int h = 1; h <= 1; h++) {
+            printf("Cima, Direita (%d)\n", atual);
+        }
     }
-    printf("\n");
 
-    // --- BISPO ---
-    int casasBispo = 5;
-    int i = 1;
-    printf("Movimento do Bispo:\n");
-    while (i <= casasBispo) {
-        printf("Cima, Direita (%d)\n", i);
-        i++;
-    }
-    printf("\n");
+    moverBispo(casas, atual + 1); // chamada recursiva
+}
 
-    // --- RAINHA ---
-    int casasRainha = 8;
-    int j = 1;
-    printf("Movimento da Rainha:\n");
-    do {
-        printf("Esquerda (%d)\n", j);
-        j++;
-    } while (j <= casasRainha);
-    printf("\n");
+// --- RAINHA (recursiva) ---
+void moverRainha(int casas, int atual) {
+    if (atual > casas) return; // caso base
+    printf("Esquerda (%d)\n", atual);
+    moverRainha(casas, atual + 1);
+}
 
-    // --- CAVALO ---
-    // Cavalo move 2 casas para baixo + 1 para a esquerda
-    int casasBaixo = 2;
-    int casasEsquerda = 1;
+// --- CAVALO (loops complexos) ---
+void moverCavalo() {
+    int casasVertical = 2;   // duas casas para cima
+    int casasHorizontal = 1; // uma casa para a direita
 
     printf("Movimento do Cavalo:\n");
 
-    // Loop externo: casas para baixo (for obrigatório)
-    for (int k = 1; k <= casasBaixo; k++) {
-        printf("Baixo (%d)\n", k);
+    // loop externo = vertical
+    for (int v = 1; v <= casasVertical; v++) {
+        if (v == 2) {
+            // Exemplo de continue: ignorar iteração extra
+            continue;
+        }
+        printf("Cima (%d)\n", v);
     }
 
-    // Loop interno: casas para a esquerda (while aninhado)
-    int l = 1;
-    while (l <= casasEsquerda) {
-        printf("Esquerda (%d)\n", l);
-        l++;
+    // loop interno = horizontal
+    int h = 1;
+    while (h <= casasHorizontal) {
+        printf("Direita (%d)\n", h);
+        // Exemplo de break: parar após a primeira execução
+        break;
     }
+}
+
+int main() {
+    // TORRE
+    printf("Movimento da Torre:\n");
+    moverTorre(5, 1);
+    printf("\n");
+
+    // BISPO
+    printf("Movimento do Bispo:\n");
+    moverBispo(5, 1);
+    printf("\n");
+
+    // RAINHA
+    printf("Movimento da Rainha:\n");
+    moverRainha(8, 1);
+    printf("\n");
+
+    // CAVALO
+    moverCavalo();
+    printf("\n");
 
     return 0;
 }
